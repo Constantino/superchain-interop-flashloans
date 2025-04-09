@@ -5,8 +5,8 @@
 
 set -e
 
-
-echo "pk: $PRIVATE_KEY"
+echo "\nPK: "
+echo "$1"
 WALLET_ADDRESS=$(cast wallet address --private-key "$PRIVATE_KEY")
 DEPLOY_SCRIPT="./script/Deploy.s.sol"
 DEPLOY_LOG="deploy_log.txt"
