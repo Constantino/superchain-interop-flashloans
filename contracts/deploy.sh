@@ -5,7 +5,6 @@
 
 set -e
 
-PRIVATE_KEY="0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
 WALLET_ADDRESS=$(cast wallet address --private-key $PRIVATE_KEY)
 DEPLOY_SCRIPT="./script/Deploy.s.sol"
 DEPLOY_LOG="deploy_log.txt"
