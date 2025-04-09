@@ -5,13 +5,13 @@
 
 set -e
 
-WALLET_ADDRESS=$(cast wallet address --private-key $PRIVATE_KEY)
+WALLET_ADDRESS=$(cast wallet address --private-key $1)
 DEPLOY_SCRIPT="./script/Deploy.s.sol"
 DEPLOY_LOG="deploy_log.txt"
 
 # Step 1: Deploy contracts on Supersim chains (local forks)
 echo "\n[+] Deploying contracts to Supersim chains..."
-forge script "$DEPLOY_SCRIPT" --slow --multi --broadcast --private-key "$PRIVATE_KEY" -vvv >"$DEPLOY_LOG"
+forge script "$DEPLOY_SCRIPT" --slow --multi --broadcast --private-key "$1" -vvv >"$DEPLOY_LOG"
 
 # Step 2: Parse contract addresses (same across both chains)
 LOGS=$(cat "$DEPLOY_LOG")
@@ -65,23 +65,23 @@ echo "[+] Transferring $AMOUNT2 wei from Chain 2"
 cast send 0x4200000000000000000000000000000000000024 "sendETH(address _to, uint256 _chainId)" \
     $UNISWAPCONTRACT $CHAINID2 --value $AMOUNT1 \
     --rpc-url $RPC1 \
-    --private-key "$PRIVATE_KEY"
+    --private-key "$1"
 
 cast send 0x4200000000000000000000000000000000000024 "sendETH(address _to, uint256 _chainId)" \
     $VAULTCONTRACT $CHAINID1 --value $AMOUNT1 \
     --rpc-url $RPC2 \
-    --private-key "$PRIVATE_KEY"
+    --private-key "$1"
 
 # Chain 2 → Chain 1
 cast send 0x4200000000000000000000000000000000000024 "sendETH(address _to, uint256 _chainId)" \
     $UNISWAPCONTRACT $CHAINID1 --value $AMOUNT2 \
     --rpc-url $RPC2 \
-    --private-key "$PRIVATE_KEY"
+    --private-key "$1"
 
 cast send 0x4200000000000000000000000000000000000024 "sendETH(address _to, uint256 _chainId)" \
     $VAULTCONTRACT $CHAINID2 --value $AMOUNT2 \
     --rpc-url $RPC1 \
-    --private-key "$PRIVATE_KEY"
+    --private-key "$1"
 
 echo "\n[+] Deployment and funding complete."
 
