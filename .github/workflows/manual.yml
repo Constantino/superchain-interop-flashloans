@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     environment: devnet
+    env:
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
     runs-on: ubuntu-latest
     
     steps:
@@ -21,18 +23,10 @@ jobs:
       - name: Install cast/wallet
         run: sudo apt-get install -y jq
 
-      # - name: Read secret
-      #   env:
-      #     PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-      #   run: echo "$PRIVATE_KEY"
       - name: Deploy and Fund
-        env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         run: bash deploy.sh
         working-directory: contracts
 
       - name: Run Tests
-        env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         run: bash test.sh
         working-directory: contracts
