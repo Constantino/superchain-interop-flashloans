@@ -7,7 +7,7 @@ set -e
 
 echo "\nPK: "
 echo "$1"
-WALLET_ADDRESS=$(cast wallet address --private-key "$PRIVATE_KEY")
+WALLET_ADDRESS=$(cast wallet address --private-key "$1")
 DEPLOY_SCRIPT="./script/Deploy.s.sol"
 DEPLOY_LOG="deploy_log.txt"
 
