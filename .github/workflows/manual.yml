@@ -21,16 +21,18 @@ jobs:
       - name: Install cast/wallet
         run: sudo apt-get install -y jq
 
-      - name: Read secret
+      # - name: Read secret
+      #   env:
+      #     PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      #   run: echo "$PRIVATE_KEY"
+      - name: Deploy and Fund
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        run: echo "$PRIVATE_KEY"
-      # - name: Deploy and Fund
-      #   env:
-      #     PRIVATE_KEY: ${{ secrets.PK }}
-      #   run: bash deploy.sh $PRIVATE_KEY
-      #   working-directory: contracts
+        run: bash deploy.sh
+        working-directory: contracts
 
-      # - name: Run Tests
-      #   run: bash test.sh
-      #   working-directory: contracts
+      - name: Run Tests
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        run: bash test.sh
+        working-directory: contracts
