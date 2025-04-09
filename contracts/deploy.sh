@@ -19,7 +19,7 @@ forge script "$DEPLOY_SCRIPT" --slow --multi --broadcast --private-key "$PRIVATE
 LOGS=$(cat "$DEPLOY_LOG")
 
 extract_address() {
-    local contract="$PRIVATE_KEY"
+    local contract="$1"
     echo "$LOGS" | grep -Ei "$contract (already )?deployed at|Deployed $contract at address" | head -n 1 | sed -E 's/.*at (address: )?([^ ]+) on.*/\2/'
 }
 
@@ -52,7 +52,7 @@ export CHAINID2
 echo "\n[+] Funding contracts on both chains..."
 
 get_tenth_balance() {
-    local rpc="$PRIVATE_KEY"
+    local rpc="$1"
     local balance=$(cast balance $WALLET_ADDRESS --rpc-url $rpc | grep -oE '^[0-9]+')
     echo $((balance / 100))
 }
